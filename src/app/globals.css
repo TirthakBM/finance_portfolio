@@ -1,76 +1,87 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
-
-:root {
-  --bg: #f8f6f1;
-  --surface: #ffffff;
-  --text: #1a2233;
-  --muted: #5b6475;
-  --line: #e4e0d6;
-  --accent: #1f3a5f;
-  --gold: #a8843f;
-  --accent-soft: #e9eef5;
-}
-
-.dark {
-  --bg: #0e1420;
-  --surface: #151d2c;
-  --text: #e8ebf1;
-  --muted: #98a2b3;
-  --line: #243046;
-  --accent: #9db7da;
-  --gold: #cfae6b;
-  --accent-soft: #1a2538;
-}
-
 @theme inline {
-  --color-bg: var(--bg);
-  --color-surface: var(--surface);
-  --color-text: var(--text);
-  --color-muted: var(--muted);
-  --color-line: var(--line);
-  --color-accent: var(--accent);
-  --color-gold: var(--gold);
-  --color-accent-soft: var(--accent-soft);
+  --color-ink: #0a0a0d;
+  --color-panel: #141418;
+  --color-panel-2: #1b1b21;
+  --color-line: #2a2a33;
+  --color-muted: #9a9aa6;
+  --color-red: #e50914;
+  --color-red-2: #ff2d3d;
+  --color-pink: #ff9fb2;
+  --color-gold: #d9ad55;
+  --color-cream: #f4e6bf;
+
   --font-sans: var(--font-inter);
+  --font-display: var(--font-anton);
+  --font-title: var(--font-bebas);
   --font-serif: var(--font-fraunces);
 
-  --animate-marquee: marquee 38s linear infinite;
-  --animate-marquee-rev: marquee 38s linear infinite reverse;
-  --animate-blob: blob 18s ease-in-out infinite;
-  --animate-float: float 5s ease-in-out infinite;
-  --animate-shine: shine 4s linear infinite;
+  --animate-shine: shine 5s linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-ring: pulse-ring 3.2s ease-out infinite;
 
-  @keyframes marquee {
-    to { transform: translateX(-50%); }
-  }
-  @keyframes blob {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(40px, -50px) scale(1.1); }
-    66% { transform: translate(-30px, 30px) scale(0.95); }
+  @keyframes shine {
+    to { background-position: -200% center; }
   }
   @keyframes float {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-12px); }
+    50% { transform: translateY(-10px); }
   }
-  @keyframes shine {
-    to { background-position: 200% center; }
+  @keyframes pulse-ring {
+    0% { transform: scale(0.85); opacity: 0.6; }
+    100% { transform: scale(1.35); opacity: 0; }
   }
 }
 
-/* Custom cursor replaces the native one on mouse devices only */
+html {
+  background: #0a0a0d;
+  color-scheme: dark;
+}
+
+body {
+  background: #0a0a0d;
+  color: #ececf1;
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+::selection {
+  background: #e50914;
+  color: #fff;
+}
+
+/* Big condensed titles with a soft bevel like the reference */
+.title-3d {
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.25),
+    0 3px 0 rgba(0, 0, 0, 0.55),
+    0 10px 24px rgba(0, 0, 0, 0.6);
+}
+
+/* Hero name: white with a pink/red sheen sweeping across */
+.name-shine {
+  background: linear-gradient(100deg, #fff 0%, #fff 30%, #ffb3c1 42%, #ff4d6a 50%, #ffb3c1 58%, #fff 70%, #fff 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.outline-num {
+  color: #0a0a0d;
+  -webkit-text-stroke: 3px #5a5a66;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 .custom-cursor,
 .custom-cursor * {
   cursor: none !important;
-}
-
-.grid-bg {
-  background-image:
-    linear-gradient(to right, color-mix(in srgb, var(--line) 70%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in srgb, var(--line) 70%, transparent) 1px, transparent 1px);
-  background-size: 56px 56px;
-  mask-image: radial-gradient(ellipse at 50% 30%, #000 20%, transparent 75%);
 }
 
 .grain::after {
@@ -79,16 +90,8 @@
   inset: 0;
   z-index: 90;
   pointer-events: none;
-  opacity: 0.05;
+  opacity: 0.04;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-.text-shine {
-  background: linear-gradient(90deg, var(--gold) 0%, var(--text) 30%, var(--gold) 60%, var(--text) 100%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -98,18 +101,28 @@
   }
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--font-sans), system-ui, sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-::selection {
-  background: var(--gold);
-  color: #fff;
+/* "Download Resume" prints just the screenplay document */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #resume-doc,
+  #resume-doc * {
+    visibility: visible;
+  }
+  #resume-doc {
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 100%;
+    background: #fff !important;
+    color: #111 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+  #resume-doc * {
+    color: #111 !important;
+  }
+  #resume-doc .print-red {
+    color: #c00 !important;
+  }
 }
